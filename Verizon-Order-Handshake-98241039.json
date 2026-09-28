@@ -1,0 +1,34 @@
+{
+  "success": true,
+  "status": "HANDSHAKE_VERIFIED",
+  "handshakeId": "VZW-HSK-98241039-Y0A9",
+  "orderNumber": "98241039",
+  "customerName": "Fox (Subscriber)",
+  "phoneNumber": "2692483433",
+  "zipCode": "49048",
+  "locationCode": "W10492",
+  "confirmationCode": "VZW-HSK-98241039-CONFIRMED",
+  "storePickupLocation": "Verizon Store - Portage, MI (6350 S Westnedge Ave)",
+  "pickupReady": true,
+  "totalPaid": "$20,409.95",
+  "verificationHash": "VZW-SIG-19FE1302BF5-98241039-OHIP4M",
+  "handshakeTimestamp": "2026-08-08T11:44:18.421Z",
+  "liveGatewayConnected": false,
+  "renderGatewayDetails": null,
+  "sessionTokens": {
+    "amLSessionId": "eed1a009-e30d-4d65-adbe-8eeb386e35c4",
+    "bioCustomerSessionId": "80a4de96-1728-4966-8849-85f98afe1645",
+    "abckToken": "852B4C49371EA1BBDCF432884DC1E54C~-1~Y~1~-1~-1~-1~056D7C2422E00781~1000~1000000~0~-1~-1~0",
+    "bmSzToken": "24AA9DDD033C1D78~YAAQDE80==~1786189457842~24",
+    "awsalb": "qf/B0ihmaHaEBIlzgOAukUTIdnKYWIMrEBVnF0ILVyq2I0lVLIjZXVdFJI8jAsybe7mgOACBSEtvvw6HsxOh2kJ+sJRJSNDvhMXKELEtBR5PZ+C5z2+3AaTzhDQu",
+    "s_ig": "17b80e22-2ec3-4de4-b878-ea8c4f8126c4"
+  },
+  "telemetryDiagnostics": {
+    "tlsFingerprintVerified": true,
+    "wafSecurityCheckPassed": true,
+    "sensorPayloadSize": 217,
+    "latencyMs": 8583,
+    "upstreamHttpStatus": 200
+  },
+  "finalizationMessage": "Order handshake successfully executed and locked via live server connection. Session tokens and Akamai telemetry bound to Verizon Wireless gateway."
+}
