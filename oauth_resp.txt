@@ -1,0 +1,1 @@
+{"access_token":"MjEwMDY4NzYtOTcyNi00ZWQ3LThiMDMtODFlYTg3NTY3YzU5","scope":"ts.application.ro ts.mec.fullaccess","token_type":"Bearer","expires_in":117}
