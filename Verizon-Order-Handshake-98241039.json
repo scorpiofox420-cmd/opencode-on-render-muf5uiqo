@@ -1,4 +1,12 @@
 {
+  "name": "Fern",
+  "category": "Indoor",
+  "tags": [
+    "green",
+    "leafy"
+  ],
+  "status": "available"
+}{
   "success": true,
   "status": "HANDSHAKE_VERIFIED",
   "handshakeId": "VZW-HSK-98241039-Y0A9",
