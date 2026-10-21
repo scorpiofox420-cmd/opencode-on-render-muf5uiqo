@@ -13,6 +13,32 @@ Run opencode as a hosted AI coding agent with the browser UI and `opencode attac
 - A 1 GB persistent disk for opencode state and your working tree
 - Optional repo cloning into `/root/project-data/workspace` on first boot
 - The Render OpenCode plugin installed by default
+- Hashcat with a CPU OpenCL backend
+
+## Hashcat
+
+The Docker image installs Debian Bookworm's `hashcat` package and
+`pocl-opencl-icd` for CPU-based OpenCL execution. This uses Debian's packaged
+version, which may differ from the latest upstream release.
+
+Save, commit, and push the Dockerfile change, then rebuild and redeploy the
+Render service. Restarting OpenCode in an existing container will not install
+these packages.
+
+In a shell inside the rebuilt server, or through OpenCode's shell tool, run:
+
+```sh
+hashcat --version
+hashcat -I
+```
+
+The first command prints the installed version. The second lists available
+compute backends and devices; confirm that a CPU device is detected before use.
+GPU acceleration is not configured. CPU compatibility and available memory
+depend on the host, and CPU-heavy work can compete with the OpenCode server.
+
+Package documentation: [Hashcat](https://packages.debian.org/bookworm/hashcat)
+and [PoCL OpenCL backend](https://packages.debian.org/bookworm/pocl-opencl-icd).
 
 ## How to use it
 
