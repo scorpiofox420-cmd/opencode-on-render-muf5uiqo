@@ -6,3 +6,18 @@ npm-debug.log
 Dockerfile
 README.md
 .DS_Store
+
+# Sensitive local artifacts and logs must not enter the build context
+**/Secret
+**/auth2.log
+**/oauth_resp.txt
+**/Verizon-Order-Handshake-*.json
+**/*.log
+**/*.log.*
+**/logs/
+
+# Local Maven tools/cache and generated output
+.m2/
+.deploy-tools/
+target/
+public/
