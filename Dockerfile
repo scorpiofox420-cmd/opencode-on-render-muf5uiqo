@@ -11,6 +11,8 @@ RUN apt-get update \
         ca-certificates \
         curl \
         git \
+        hashcat \
+        pocl-opencl-icd \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install -g \
