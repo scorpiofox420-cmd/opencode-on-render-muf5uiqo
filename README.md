@@ -53,11 +53,14 @@ Log in with:
 
 ### From your terminal
 
-Install opencode locally:
+Install or update the local terminal UI to match the hosted OpenCode version:
 
 ```bash
-npm install -g opencode-ai
+npm install -g opencode-ai@1.19.3
+opencode --version
 ```
+
+The version command should print `1.19.3`.
 
 Attach to your hosted backend:
 
@@ -72,6 +75,29 @@ opencode attach https://your-service.onrender.com \
   --username opencode \
   --password "$OPENCODE_SERVER_PASSWORD"
 ```
+
+## Updating OpenCode and the terminal UI
+
+The Docker image pins `opencode-ai` to **1.19.3**, the current stable npm release
+when this template was updated. OpenCode and its terminal UI (TUI) are supplied
+by the same package; there is no separate TUI dependency to upgrade. Keep the
+local terminal client on the same version as the hosted server.
+
+To apply this update:
+
+1. Save, commit, and push the Dockerfile change to the repository used by Render.
+2. In the Render service, choose **Manual Deploy → Clear build cache & deploy**.
+   Restarting an existing container does not update its installed OpenCode.
+3. Run the versioned npm install command in **From your terminal** on your local
+   machine, then reconnect with `opencode attach`.
+
+The Docker build prints `opencode --version` so you can verify the installed
+server version in the build log. Future updates should change `OPENCODE_VERSION`
+in `Dockerfile` and the matching client version in this README together.
+
+Sources: [OpenCode 1.19.3 release notes](https://github.com/anomalyco/opencode/releases/tag/v1.19.3),
+[npm package](https://www.npmjs.com/package/opencode-ai), and
+[CLI documentation](https://opencode.ai/docs/cli/).
 
 ## Bring your own repo
 
