@@ -3,3 +3,18 @@
 .env.*
 node_modules/
 npm-debug.log*
+
+# Sensitive local artifacts and logs
+Secret
+auth2.log
+oauth_resp.txt
+Verizon-Order-Handshake-*.json
+*.log
+*.log.*
+logs/
+
+# Local Maven tools/cache and generated output
+.m2/
+.deploy-tools/
+target/
+public/
