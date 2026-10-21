@@ -15,10 +15,13 @@ RUN apt-get update \
         pocl-opencl-icd \
     && rm -rf /var/lib/apt/lists/*
 
+ARG OPENCODE_VERSION=1.19.3
+
 RUN npm install -g \
-        opencode-ai@latest \
+        "opencode-ai@${OPENCODE_VERSION}" \
         typescript-language-server@latest \
         typescript@latest \
+    && opencode --version \
     && npm cache clean --force
 
 RUN curl -fsSL https://raw.githubusercontent.com/render-oss/render-opencode-plugin/main/install.sh \
