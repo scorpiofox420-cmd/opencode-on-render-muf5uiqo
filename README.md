@@ -53,59 +53,25 @@ Log in with:
 
 ### From your terminal
 
-Install or update the local terminal UI to match the hosted OpenCode version:
+Install opencode locally:
 
 ```bash
-npm install -g opencode-ai@1.19.3
-opencode --version
+npm install -g opencode-ai
 ```
 
-The version command should print `1.19.3`.
-
-Attach to the **Render OpenCode service URL**, not a separate static-site or
-dashboard URL. Replace the example URL below with your service's URL.
-
-`opencode attach` does not prompt for a server password. Render's environment
-variables are not automatically available on your local device. In Bash, use
-this hidden-input prompt and paste the generated `OPENCODE_SERVER_PASSWORD`
-from your Render service's Environment page:
+Attach to your hosted backend:
 
 ```bash
-(
-  read -rsp "OpenCode server password: " OPENCODE_SERVER_PASSWORD || exit 1
-  printf '\n'
-  export OPENCODE_SERVER_PASSWORD
-  opencode attach https://your-service.onrender.com --username opencode
-)
+opencode attach https://your-service.onrender.com
 ```
 
-The subshell keeps the password out of shell history and discards its local
-copy when the client exits. If you changed `OPENCODE_SERVER_USERNAME` in Render,
-replace `opencode` after `--username` with the configured username. Never paste
-your password or provider keys into an issue or chat.
+Use the generated password when prompted. You can also pass it directly:
 
-## Updating OpenCode and the terminal UI
-
-The Docker image pins `opencode-ai` to **1.19.3**, the current stable npm release
-when this template was updated. OpenCode and its terminal UI (TUI) are supplied
-by the same package; there is no separate TUI dependency to upgrade. Keep the
-local terminal client on the same version as the hosted server.
-
-To apply this update:
-
-1. Save, commit, and push the Dockerfile change to the repository used by Render.
-2. In the Render service, choose **Manual Deploy → Clear build cache & deploy**.
-   Restarting an existing container does not update its installed OpenCode.
-3. Run the versioned npm install command in **From your terminal** on your local
-   machine, then reconnect with `opencode attach`.
-
-The Docker build prints `opencode --version` so you can verify the installed
-server version in the build log. Future updates should change `OPENCODE_VERSION`
-in `Dockerfile` and the matching client version in this README together.
-
-Sources: [OpenCode 1.19.3 release notes](https://github.com/anomalyco/opencode/releases/tag/v1.19.3),
-[npm package](https://www.npmjs.com/package/opencode-ai), and
-[CLI documentation](https://opencode.ai/docs/cli/).
+```bash
+opencode attach https://your-service.onrender.com \
+  --username opencode \
+  --password "$OPENCODE_SERVER_PASSWORD"
+```
 
 ## Bring your own repo
 
@@ -140,41 +106,11 @@ OPENCODE_SERVER_COMMAND=web
 
 That starts opencode's web UI and API on the same Render URL.
 
-Both `web` and `serve` support authenticated `opencode attach`. Use
-`OPENCODE_SERVER_COMMAND=serve` only when you want a headless backend instead
-of the web UI; changing modes is not a general fix for attachment errors.
+If `opencode attach` returns HTML instead of API responses, switch to the headless server:
 
-## Terminal troubleshooting
-
-You can check the backend without a working terminal:
-
-1. Open `https://your-service.onrender.com/global/health` in a browser, using
-   your actual **Render OpenCode service URL**. Sign in with the configured
-   username and generated server password if the browser requests them.
-2. A healthy backend returns JSON such as
-   `{"healthy":true,"version":"1.19.3"}`. Check the returned version rather than
-   assuming the Dockerfile update has reached the running service.
-3. If you see `401` or a repeated sign-in prompt, verify the server credentials.
-   If you get HTML or a different dashboard instead of health JSON, check the
-   destination URL and routing before changing OpenCode's server command.
-4. If the service does not load or returns `502`/`503`, inspect Render's current
-   live deployment and runtime logs. Check for a failed startup or deployment;
-   the latest attempted deployment is not necessarily the live one.
-
-If health succeeds but the browser terminal is blank or disconnected, capture
-its failed PTY/WebSocket request status (from the browser's Network panel) and
-any matching Render runtime error. API health alone does not verify the terminal
-connection. Render supports WebSockets; do not disable server authentication to
-work around a terminal failure.
-
-For local OpenCode startup or attach failures, share the exact error text and
-local `opencode --version` output, with credentials removed. If no terminal is
-available, share the browser health result and the first relevant Render runtime
-error instead. Do not delete persistent state or downgrade blindly.
-
-References: [OpenCode server health and authentication](https://opencode.ai/docs/server/),
-[OpenCode 1.19.3 attach implementation](https://github.com/anomalyco/opencode/blob/v1.19.3/packages/opencode/src/cli/cmd/attach.ts),
-and [WebSockets on Render](https://render.com/docs/websocket).
+```txt
+OPENCODE_SERVER_COMMAND=serve
+```
 
 ## Configured providers
 
