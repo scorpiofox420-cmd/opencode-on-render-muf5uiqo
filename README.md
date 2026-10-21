@@ -62,19 +62,27 @@ opencode --version
 
 The version command should print `1.19.3`.
 
-Attach to your hosted backend:
+Attach to the **Render OpenCode service URL**, not a separate static-site or
+dashboard URL. Replace the example URL below with your service's URL.
+
+`opencode attach` does not prompt for a server password. Render's environment
+variables are not automatically available on your local device. In Bash, use
+this hidden-input prompt and paste the generated `OPENCODE_SERVER_PASSWORD`
+from your Render service's Environment page:
 
 ```bash
-opencode attach https://your-service.onrender.com
+(
+  read -rsp "OpenCode server password: " OPENCODE_SERVER_PASSWORD || exit 1
+  printf '\n'
+  export OPENCODE_SERVER_PASSWORD
+  opencode attach https://your-service.onrender.com --username opencode
+)
 ```
 
-Use the generated password when prompted. You can also pass it directly:
-
-```bash
-opencode attach https://your-service.onrender.com \
-  --username opencode \
-  --password "$OPENCODE_SERVER_PASSWORD"
-```
+The subshell keeps the password out of shell history and discards its local
+copy when the client exits. If you changed `OPENCODE_SERVER_USERNAME` in Render,
+replace `opencode` after `--username` with the configured username. Never paste
+your password or provider keys into an issue or chat.
 
 ## Updating OpenCode and the terminal UI
 
@@ -132,11 +140,41 @@ OPENCODE_SERVER_COMMAND=web
 
 That starts opencode's web UI and API on the same Render URL.
 
-If `opencode attach` returns HTML instead of API responses, switch to the headless server:
+Both `web` and `serve` support authenticated `opencode attach`. Use
+`OPENCODE_SERVER_COMMAND=serve` only when you want a headless backend instead
+of the web UI; changing modes is not a general fix for attachment errors.
 
-```txt
-OPENCODE_SERVER_COMMAND=serve
-```
+## Terminal troubleshooting
+
+You can check the backend without a working terminal:
+
+1. Open `https://your-service.onrender.com/global/health` in a browser, using
+   your actual **Render OpenCode service URL**. Sign in with the configured
+   username and generated server password if the browser requests them.
+2. A healthy backend returns JSON such as
+   `{"healthy":true,"version":"1.19.3"}`. Check the returned version rather than
+   assuming the Dockerfile update has reached the running service.
+3. If you see `401` or a repeated sign-in prompt, verify the server credentials.
+   If you get HTML or a different dashboard instead of health JSON, check the
+   destination URL and routing before changing OpenCode's server command.
+4. If the service does not load or returns `502`/`503`, inspect Render's current
+   live deployment and runtime logs. Check for a failed startup or deployment;
+   the latest attempted deployment is not necessarily the live one.
+
+If health succeeds but the browser terminal is blank or disconnected, capture
+its failed PTY/WebSocket request status (from the browser's Network panel) and
+any matching Render runtime error. API health alone does not verify the terminal
+connection. Render supports WebSockets; do not disable server authentication to
+work around a terminal failure.
+
+For local OpenCode startup or attach failures, share the exact error text and
+local `opencode --version` output, with credentials removed. If no terminal is
+available, share the browser health result and the first relevant Render runtime
+error instead. Do not delete persistent state or downgrade blindly.
+
+References: [OpenCode server health and authentication](https://opencode.ai/docs/server/),
+[OpenCode 1.19.3 attach implementation](https://github.com/anomalyco/opencode/blob/v1.19.3/packages/opencode/src/cli/cmd/attach.ts),
+and [WebSockets on Render](https://render.com/docs/websocket).
 
 ## Configured providers
 
