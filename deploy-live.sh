@@ -120,7 +120,7 @@ verify_runnable_jar() {
 do_build() {
   local maven_bin="$PROJECT_DIR/.deploy-tools/apache-maven-3.9.9/bin/mvn"
   local m2_home="$PROJECT_DIR/.m2"
-  [[ -x "$maven_bin" ]] || err "Local Maven 3.9.9 is missing from .deploy-tools/. Restore that tool and populate .m2/repository/ before an offline build."
+  [[ -f "$maven_bin" && -x "$maven_bin" ]] || err "Local Maven 3.9.9 is missing from .deploy-tools/. Restore that tool and populate .m2/repository/ before an offline build."
   printf 'Building offline with tests enabled; the local Maven cache must already be populated.\n'
   MAVEN_USER_HOME="$m2_home" "$maven_bin" -o -q -B "-Dmaven.repo.local=$m2_home/repository" clean package
   select_jar
