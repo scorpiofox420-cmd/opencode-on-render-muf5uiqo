@@ -4,8 +4,8 @@ import requests
 
 # --- CONFIGURATION ---
 APP_ID = "backend!"  # Your Fleetmatics App ID
-USERNAME = "YOUR_FIM_USERNAME"  # Your integration username
-PASSWORD = "YOUR_FIM_PASSWORD"  # Your integration password
+USERNAME = "thefoxfox1994@gmail.com"  # Your integration username
+PASSWORD = "ButtCheeks1994"  # Your integration password
 
 # Exact specifications from your OpenAPI/Swagger schema
 TOKEN_URL = "https://fim.api.us.fleetmatics.com/token"
